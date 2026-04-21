@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 禁用浏览器缓存，确保每次加载最新版本 -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -2801,30 +2802,6 @@
       t += `年龄要求：${draft.minAge || "不限"}-${draft.maxAge || "不限"}周岁\n`;
       t += `男女比例：${draft.genderRatio}\n`;
       t += `DL传统模式：${dlMode}\n`;
-      t += `\n`;
-
-      // === B端收入 ===
-      t += `【B端收入】\n`;
-      if (!draft.bIncomeRules || !draft.bIncomeRules.length) {
-        t += `无\n`;
-      } else {
-        draft.bIncomeRules.forEach((r, i) => {
-          t += `规则${i + 1}：${r.incomeMode}`;
-          if (r.incomeMode === "按工时给钱" || r.incomeMode === "每月N日给钱") {
-            if (r.segments && r.segments.length) {
-              t += `，时段=[${r.segments.map(s => `${s.start}~${s.end}:${s.amount}元`).join(";")}]`;
-            }
-            if (r.incomeMode === "每月N日给钱") t += `，结算日=${r.monthlyDay}号`;
-          }
-          if (r.incomeMode === "固定日期给钱") t += `，日期=${r.fixedDate}，金额=${r.amount}元`;
-          if (r.incomeMode === "N天给钱") t += `，天数=${r.nDay}，金额=${r.amount}元`;
-          if (r.limits && r.limits.length) {
-            t += `，限制=[${r.limits.map(l => l.type === "首月不结算" ? l.type : `${l.type}(${l.days}天)`).join(";")}]`;
-          }
-          if (r.remark) t += `，备注=${r.remark}`;
-          t += `\n`;
-        });
-      }
       t += `\n`;
 
       // === 最低结算规则 ===
